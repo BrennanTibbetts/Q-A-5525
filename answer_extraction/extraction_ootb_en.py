@@ -8,9 +8,7 @@ import torch
 
 
 class AnswerExtractorEnglish:
-
     def __init__(self, device):
-
         model_name = "t5-small"
 
         self.device = device
@@ -18,7 +16,6 @@ class AnswerExtractorEnglish:
         self.model = AutoModelWithLMHead.from_pretrained(model_name).to(self.device)
 
     def extract_answer(self, question, context):
-
         input_text = f"question: {question} context: {context}"
         features = self.tokenizer(input_text, return_tensors="pt")
 
@@ -34,10 +31,10 @@ class AnswerExtractorEnglish:
 
 
 class AnswerExtractor:
-
-    def __init__(self, device):
-
+    def __init__(self):
         model_name = "deepset/xlm-roberta-large-squad2"
+
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
         self.device = device
         self.tokenizer = AutoTokenizer.from_pretrained(model_name)
@@ -46,7 +43,6 @@ class AnswerExtractor:
         )
 
     def extract_answer(self, question, context):
-
         pipe = pipeline(
             "question-answering",
             model=self.model,
