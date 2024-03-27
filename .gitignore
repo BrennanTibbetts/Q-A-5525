@@ -128,3 +128,9 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# virtual environment
+venv
+
+# xquad data
+data/xquad.en.json
