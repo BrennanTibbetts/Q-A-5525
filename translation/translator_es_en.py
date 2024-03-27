@@ -1,10 +1,10 @@
-import torch
 from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
+import torch
 
 class Translator:
-    def __init__(self):
-        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    def __init__(self, device):
 
+        self.device = device
         model_name = 'Helsinki-NLP/opus-mt-es-en'
 
         self.tokenizer = AutoTokenizer.from_pretrained(
@@ -12,7 +12,7 @@ class Translator:
         )
         self.model = AutoModelForSeq2SeqLM.from_pretrained(
             model_name
-        ).to(device)
+        ).to(self.device)
 
     def translate(self, text: str) -> str:
 
@@ -92,7 +92,7 @@ class Translator:
 
 #     return result_text
 
-Translator = Translator()
-print(Translator.translate("Todo depende de lo que quieras. Puede confiar en que estaremos a su lado en las buenas y en las malas, hasta el amargo final. Y puede confiar en nosotros para guardar cualquier secreto suyo, más cerca que usted mismo. Pero no puedes confiar en que te dejaremos afrontar los problemas solo y marcharte sin decir una palabra. Somos tus amigos, Frodo. En fin: ahí está. Sabemos la mayor parte de lo que Gandalf les ha contado. Sabemos mucho sobre el Anillo. Tenemos un miedo terrible, pero iremos con vosotros; o seguirte como perros de caza."))
+# Translator = Translator("cuda" if torch.cuda.is_available() else "cpu")
+# print(Translator.translate("Todo depende de lo que quieras. Puede confiar en que estaremos a su lado en las buenas y en las malas, hasta el amargo final. Y puede confiar en nosotros para guardar cualquier secreto suyo, más cerca que usted mismo. Pero no puedes confiar en que te dejaremos afrontar los problemas solo y marcharte sin decir una palabra. Somos tus amigos, Frodo. En fin: ahí está. Sabemos la mayor parte de lo que Gandalf les ha contado. Sabemos mucho sobre el Anillo. Tenemos un miedo terrible, pero iremos con vosotros; o seguirte como perros de caza."))
 
 
