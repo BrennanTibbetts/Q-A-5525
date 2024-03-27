@@ -2,7 +2,7 @@ import os
 import sys
 import torch
 
-sys.path.insert(0, os.path.abspath("answer-extraction"))
+sys.path.insert(0, os.path.abspath("answer_extraction"))
 from extraction_ootb_en import AnswerExtractor
 
 sys.path.insert(0, os.path.abspath("question_generation"))
