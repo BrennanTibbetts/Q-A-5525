@@ -1,8 +1,10 @@
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+import torch
 
 
 class QuestionGenerator:
-    def __init__(self, device):
+    def __init__(self):
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.tokenizer = AutoTokenizer.from_pretrained(
             "voidful/context-only-question-generator"
         )
