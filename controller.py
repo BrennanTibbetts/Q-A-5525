@@ -1,6 +1,6 @@
 import os
 import sys
-from torch import device
+import torch
 
 sys.path.insert(0, os.path.abspath("answer-extraction"))
 from extraction_ootb_en import AnswerExtractor
@@ -13,9 +13,11 @@ sys.path.insert(0, os.path.abspath("translation"))
 
 
 class Controller:
-    def __init__(self, device):
+    def __init__(self):
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
         self.extractor = AnswerExtractor(device)
-        self.question_generator = QuestionGenerator()
+        self.question_generator = QuestionGenerator(device)
         # self.translator = Translator
 
 
