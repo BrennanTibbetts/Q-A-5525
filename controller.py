@@ -9,7 +9,7 @@ sys.path.insert(0, os.path.abspath("question_generation"))
 from question_gen_en import QuestionGenerator
 
 sys.path.insert(0, os.path.abspath("translation"))
-# from translation import Translator
+from translation_es_en import Translator
 
 
 class Controller:
@@ -18,7 +18,7 @@ class Controller:
 
         self.extractor = AnswerExtractor(device)
         self.question_generator = QuestionGenerator(device)
-        # self.translator = Translator
+        self.translator = Translator(device)
 
 
 if __name__ == "__main__":
