@@ -56,9 +56,12 @@ def semantic_comparison(generated_questions: list[str], dataset_questions: list[
     generated_embeddings = model.encode(generated_questions)
     dataset_embeddings = model.encode(dataset_questions)
 
-    semantic_similarities = util.pytorch_cos_sim(generated_embeddings, dataset_embeddings)
+    gen_embedding = sum(generated_embeddings) / len(generated_embeddings)
+    dataset_embedding = sum(dataset_embeddings) / len(dataset_embeddings)
 
-    return semantic_similarities.max(dim=1).values.mean().item()
+    semantic_similarities = util.pytorch_cos_sim(gen_embedding, dataset_embedding)
+
+    return semantic_similarities.item()
 
 
 class Controller:
