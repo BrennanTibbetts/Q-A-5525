@@ -1,0 +1,41 @@
+Spanish Context: El calor necesario para hervir el agua y suministrar el vapor puede derivarse de varias fuentes, generalmente de la quema de materiales combustibles con un suministro adecuado de aire en un espacio cerrado (llamado de varias maneras: cámara de combustión, chimenea...). En algunos casos la fuente de calor es un reactor nuclear, energía geotérmica, energía solar o calor residual de un motor de combustión interna o proceso industrial. En el caso de modelos o motores de vapor de juguete, la fuente de calor puede ser un calentador eléctrico.
+
+Translation BLEU: 0.6084147060623322
+
+English Context: The heat required for boiling the water and supplying the steam can be derived from various sources, most commonly from burning combustible materials with an appropriate supply of air in a closed space (called variously combustion chamber, firebox). In some cases the heat source is a nuclear reactor, geothermal energy, solar energy or waste heat from an internal combustion engine or industrial process. In the case of model or toy steam engines, the heat source can be an electric heating element.
+
+Translated Context: The heat needed to boil the water and supply the steam can be derived from several sources, usually from the burning of combustible materials with an adequate supply of air in a closed space (called in several ways: combustion chamber, fireplace...). In some cases the heat source is a nuclear reactor, geothermal energy, solar energy or residual heat from an internal combustion engine or industrial process. In the case of toy steam models or engines, the heat source can be an electric heater.
+
+--------------------------------------------------
+
+Generated-Q: Which heat source is used for combustion chamber?
+Generated-A:  air
+
+Generated-Q: How many sources of heat can be derived from combustion chamber?
+Generated-A:  several sources,
+
+Generated-Q: What is the heat source of a toy steam model?
+Generated-A:  electric heater.
+
+Generated-Q: In some cases, what is the heat source of energy for toy steam models?
+Generated-A:  electric heater.
+
+--------------------------------------------------
+
+Target-Q: What is the usual source of heat for boiling water in the steam engine?
+Target-A: burning combustible materials
+
+Target-Q: Aside from firebox, what is another name for the space in which combustible material is burned in the engine?
+Target-A: combustion chamber
+
+Target-Q: Along with nuclear, geothermal and internal combustion engine waste heat, what sort of energy might supply the heat for a steam engine?
+Target-A: solar
+
+Target-Q: What type of heating element is often used in toy steam engines?
+Target-A: electric
+
+--------------------------------------------------
+
+QA Pair Semantic Similarity: 0.8310651183128357
+
+Github Link: https://github.com/BrennanTibbetts/Q-A-5525
