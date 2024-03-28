@@ -24,8 +24,13 @@ class QuestionGenerator:
             input_ids,
             max_new_tokens=50,
             num_return_sequences=num_questions,
-            temperature=temperature,
-            do_sample=True,
+            num_beams=num_questions,
+            num_beam_groups=num_questions,  # number of groups to divide the questions into
+            temperature=temperature,    # higher temoerature means more randomness
+            do_sample=False,
+            length_penalty=-1,  # penalize longer questions because it gets incoherent
+            diversity_penalty=5.0,  # encourages diversity in the questions
+            no_repeat_ngram_size=2  # avoid repeating bigrams to ensure diversity
         )
         questions = list(
             {
