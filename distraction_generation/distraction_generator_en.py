@@ -1,4 +1,6 @@
+# You have to run this to get the model:
 # python -m spacy download en_core_web_md
+#  
 
 import spacy
 import numpy as np
@@ -50,7 +52,6 @@ def find_distraction_word(passage, target_words, target_similarity):
     return [distraction_word, distraction_difference]
 
 def example_flow(passage, answer):
-
 
     target_words = [answer]
     target_similarity = 0.95 
