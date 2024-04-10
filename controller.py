@@ -85,7 +85,6 @@ class Controller:
     def extract_answer(self, question: str, context: str):     
         return self.extractor.extract_answer(question, context)
 
-
 def score_qa_pair(controller, english: dict, spanish: dict, display: bool = False):
     """
     Iterate over the articles and paragraphs in the English and Spanish data to translate,
