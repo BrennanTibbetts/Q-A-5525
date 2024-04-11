@@ -1,41 +1,44 @@
-from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 import torch
+
+# NOTE: If used in final, cite https://huggingface.co/mrm8488/t5-base-finetuned-question-generation-ap
 
 
 class QuestionGenerator:
     def __init__(self):
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.tokenizer = AutoTokenizer.from_pretrained(
-            "voidful/context-only-question-generator"
-        )
+            "mrm8488/t5-base-finetuned-question-generation-ap"
+            )
         self.model = AutoModelForSeq2SeqLM.from_pretrained(
-            "voidful/context-only-question-generator"
-        ).to(device)
+            "mrm8488/t5-base-finetuned-question-generation-ap"
+            ).to(device)
 
-    def generate_questions(
-        self, context: str, num_questions: int = 4, temperature: float = 1.0
-    ):
-        """
-        Generate questions from a given context using the model
-        """
 
-        input_ids = self.tokenizer(context, return_tensors="pt").input_ids
-        outputs = self.model.generate(
-            input_ids,
-            max_new_tokens=50,
-            num_return_sequences=num_questions,
-            num_beams=num_questions,
-            num_beam_groups=num_questions,  # number of groups to divide the questions into
-            temperature=temperature,    # higher temoerature means more randomness
-            do_sample=False,
-            length_penalty=-1,  # penalize longer questions because it gets incoherent
-            diversity_penalty=5.0,  # encourages diversity in the questions
-            no_repeat_ngram_size=2  # avoid repeating bigrams to ensure diversity
-        )
-        questions = list(
-            {
-                self.tokenizer.decode(output, skip_special_tokens=True)
-                for output in outputs
-            }
-        )
-        return questions
+    def generate_question(self, answer, context, max_length=64):
+        input_text = f"answer: {answer}  context: {context} </s>"
+        features = self.tokenizer([input_text], return_tensors='pt')
+
+        output = self.model.generate(input_ids=features['input_ids'], 
+                    attention_mask=features['attention_mask'],
+                    max_length=max_length)
+
+        return self.tokenizer.decode(output[0])
+
+
+if __name__ == '__main__':
+    qg = QuestionGenerator()
+    answer = "the Alps"
+    context = """France, often hailed as the heart of Europe, stands as a beacon of culture, 
+        history, and culinary mastery. This illustrious nation, woven into the very fabric of the
+        continent's identity, offers a diverse tapestry of landscapes that range from the rugged
+        cliffs of Brittany to the sun-drenched lavender fields of Provence, and from the 
+        snow-capped peaks of the Alps to the serene vineyards of Bordeaux. The Alps are a 
+        majestic mountain range that stretches across eight countries, including France,"""
+
+    question = qg.generate_question(answer, 
+                                    context)
+    print(question)
+
+
+
