@@ -16,6 +16,9 @@ from question_gen_en import QuestionGenerator
 sys.path.insert(0, os.path.abspath("translation"))
 from translator_es_en import Translator
 
+sys.path.insert(0, os.path.abspath("distraction_generation"))
+from distraction_generator_en import DistractionFinder
+
 
 ENGLISH_JSON = "data/xquad.en.json"
 SPANISH_JSON = "data/xquad.es.json"
