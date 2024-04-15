@@ -47,7 +47,7 @@ class NER_Extractor:
         
 if __name__ == "__main__":
     # Example usage:
-    paragraph_text = "The Indian Space Research Organisation or is the national space agency of India, headquartered in Bengaluru. It operates under Department of Space which is directly overseen by the Prime Minister of India while Chairman of ISRO acts as executive of DOS as well."
+    paragraph_text = "The commencement ceremony for OSU graduates will take place on May 20th at Ohio Stadium."
     
     ner_extractor = NER_Extractor()
     ner_extractor.change_spacy_initialization(0)
