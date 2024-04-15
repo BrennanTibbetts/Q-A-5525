@@ -5,13 +5,13 @@ class NER_Extractor:
     # both are english. first is fast, second is accurate
     # adapted from https://www.analyticsvidhya.com/blog/2021/06/nlp-application-named-entity-recognition-ner-in-python-with-spacy/
 
-    NER_list = [spacy.load("en_core_web_sm"), spacy.load("en_core_web_trf")]
+    NER_list = [spacy.load("en_core_web_md"), spacy.load("en_core_web_trf")]
     NER_index = 0
 
     def change_spacy_initialization(self, index):
         self.NER_index = index
         
-    def process_paragraph(self, paragraph_text):
+    def process_paragraph(self, paragraph_text, display=False):
         # paragraph_text = "The Indian Space Research Organisation or is the national space agency of India, headquartered in Bengaluru. It operates under Department of Space which is directly overseen by the Prime Minister of India while Chairman of ISRO acts as executive of DOS as well."
         tagged_text= self.NER_list[self.NER_index](paragraph_text)
         unique_labels = set()
@@ -23,7 +23,7 @@ class NER_Extractor:
         # print(good_stuff)
 
         # optional for bugtesting
-        if(True):
+        if(display):
             print('\nProcessed Tags')
             for word in tagged_text.ents:
                 print('\t'+word.label_, word.text)

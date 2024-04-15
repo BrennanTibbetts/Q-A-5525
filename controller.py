@@ -8,7 +8,7 @@ from nltk.tokenize import word_tokenize
 from sentence_transformers import SentenceTransformer, util
 
 sys.path.insert(0, os.path.abspath("answer_extraction"))
-from extraction_ootb_en import AnswerExtractor
+from answer_extraction import NER_Extractor 
 
 sys.path.insert(0, os.path.abspath("question_generation"))
 from question_gen_en import QuestionGenerator
@@ -72,21 +72,23 @@ class Controller:
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
         self.translator = Translator(device)
-        #print(self.translator.translate("Hola, ¿cómo estás?"))
-        self.extractor = AnswerExtractor()
+        self.extractor = NER_Extractor()
         self.question_generator = QuestionGenerator()
+        self.distraction_finder = DistractionFinder()
 
     # methods to simplify model calls
     def translate(self, text:str):
         return self.translator.translate(text)
-    
-    def generate_questions(self, text: str, num_questions: int = 4):
-        return self.question_generator.generate_questions(text, 
-                                                          num_questions=num_questions, 
-                                                          temperature=3.0)
 
-    def extract_answer(self, question: str, context: str):     
-        return self.extractor.extract_answer(question, context)
+    def extract_answer(self, context: str):     
+        return self.extractor.process_paragraph(context)
+    
+    def generate_question(self, answer, context, max_length=64):
+        return self.question_generator.generate_question(answer, context)
+
+    def find_distraction(self, passage: str, answer: str):
+        return self.distraction_finder.example_flow(passage, answer)
+
 
 def score_qa_pair(controller, english: dict, spanish: dict, display: bool = False):
     """
@@ -103,9 +105,7 @@ def score_qa_pair(controller, english: dict, spanish: dict, display: bool = Fals
 
             # get the text to translate
             spanish_context = spanish[i]["paragraphs"][j]["context"]
-            
             translated_context = controller.translate(spanish_context)
-
 
             # get the correct translation
             target_context = paragraph["context"]
@@ -117,8 +117,13 @@ def score_qa_pair(controller, english: dict, spanish: dict, display: bool = Fals
                 
                 target_qa.append((target_question, target_answer))
 
+
+            # extract answer first, not after
+            extracted_answer = controller.extract_answer(translated_context)
+
             # generate question
-            generated_questions = controller.generate_questions(translated_context, num_questions=len(target_qa))
+            generated_question = controller.generate_question(extracted_answer, translated_context)
+            generated_questions = [generated_question]
 
             bleu_score = bleu_comparison(target_context, translated_context)
 
