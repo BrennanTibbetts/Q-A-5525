@@ -118,10 +118,6 @@ def score_qa_pair(controller, english: dict, spanish: dict, display: bool = Fals
                 
                 target_qa.append((target_question, target_answer))
 
-            # convert translated context to str
-            print(f"Translated Context: {translated_context}\n")
-
-            # extract answer first, not after
             extracted_answers = controller.extract_answer(translated_context)
 
             if display:
