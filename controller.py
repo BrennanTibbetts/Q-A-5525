@@ -87,7 +87,7 @@ class Controller:
     def generate_question(self, answer, context, max_length=64):
         return self.question_generator.generate_question(answer, context)
 
-    def find_distraction(self, passage: str, answer: str):
+    def find_distractions(self, passage: str, answer: str):
         return self.distraction_finder.example_flow(passage, answer)
 
 
@@ -123,43 +123,37 @@ def score_qa_pair(controller, english: dict, spanish: dict, display: bool = Fals
 
             # extract answer first, not after
             extracted_answers = controller.extract_answer(translated_context)
-            print(extracted_answers)
+
+            if display:
+                print("--------------------------------------------------\n")
+                print(f"Spanish Context: {spanish_context}\n")
+                print(f"English Context: {target_context}\n")
+                print(f"Translated Context: {translated_context}\n")
+                print("--------------------------------------------------\n")
 
             for extracted_answer in extracted_answers:
-                # generate question
+                
                 generated_question = controller.generate_question(extracted_answer, translated_context)
-                print(generated_question)
-                # generated_questions = [generated_question]
+                extracted_distractions = controller.find_distractions(translated_context, extracted_answer)
 
                 # bleu_score = bleu_comparison(target_context, translated_context)
 
-                if display:
-                    print("--------------------------------------------------\n")
-                    print(f"Spanish Context: {spanish_context}\n")
-                    print(f"English Context: {target_context}\n")
-                    print(f"Translated Context: {translated_context}\n")
-                    print("--------------------------------------------------\n")
-
                 gen_qa = []
-
-                if display:
-                    print("--------------------------------------------------\n")
-
                 dataset_qa = []
-                for qa in target_qa:
-                    
-                    dataset_qa.append(f"Q: {qa[0]}, A:{qa[1][0]}")
-                    
-                    if display:
-                        print(f"Target-Q: {qa[0]}")
-                        print(f"Target-A: {qa[1][0]}\n")
-                        
-
-                similarity = semantic_comparison(gen_qa, dataset_qa)
 
                 if display:
                     print("--------------------------------------------------\n")
-                    print(f"QA Pair Semantic Similarity: {similarity}\n")
+                    print(f"Generated-Q: {generated_question}\n")
+                    print(f"Extracted-A: {extracted_answer}\n")
+                    print(f"Distractions: {extracted_distractions}\n")
+                    print(f"Target-QA: {target_qa}\n")
+                    print("--------------------------------------------------\n")
+                        
+                # similarity = semantic_comparison(gen_qa, dataset_qa)
+
+                # if display:
+                #     print("--------------------------------------------------\n")
+                #     print(f"QA Pair Semantic Similarity: {similarity}\n")
 
             
             # bleu_score = bleu_comparison(target_context, translated_context)

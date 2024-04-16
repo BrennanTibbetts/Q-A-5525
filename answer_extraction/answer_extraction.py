@@ -1,5 +1,6 @@
 import spacy
 from spacy import displacy
+import random
 
 class NER_Extractor:
     # both are english. first is fast, second is accurate
@@ -16,7 +17,7 @@ class NER_Extractor:
         
         # alternative method if we wanted more direct control of tag types
 
-        good_stuff = [(token.text, token.pos_) for token in tagged_text if token.pos_ in ['NOUN', 'VERB']]
+        good_stuff = [(token.text, token.pos_) for token in tagged_text if token.pos_ in ['NOUN']]
         
         # extract only the token text (ex: 'runs'), not the token type (ex. 'verb')
         good_stuff = [word for word, pos in good_stuff]
@@ -47,7 +48,7 @@ class NER_Extractor:
         # ensure final output is in strings
         final_output = tuple(str(item) for item in final_output)
         
-        return final_output
+        return random.sample(final_output, 4)
                 
     # Work if we wanted to get phrased answers instead of just single subjected words
     # def break_down_sentences(tagged_text):
