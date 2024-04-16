@@ -9,9 +9,13 @@ cloudpathlib==0.16.0
 colorama==0.4.6
 comm==0.2.2
 confection==0.1.4
+curated-tokenizers==0.0.9
+curated-transformers==0.1.1
 cymem==2.0.8
 debugpy==1.8.1
 decorator==5.1.1
+en-core-web-md @ https://github.com/explosion/spacy-models/releases/download/en_core_web_md-3.7.1/en_core_web_md-3.7.1-py3-none-any.whl#sha256=6a0f857a2b4d219c6fa17d455f82430b365bf53171a2d919b9376e5dc9be032e
+en-core-web-trf @ https://github.com/explosion/spacy-models/releases/download/en_core_web_trf-3.7.3/en_core_web_trf-3.7.3-py3-none-any.whl#sha256=f72abb34bdf174876bd4267b29b2501677e605e0a251fdc56c163003182ed68b
 executing==2.0.1
 filelock==3.13.3
 fsspec==2024.3.1
@@ -61,6 +65,7 @@ sentencepiece==0.2.0
 six==1.16.0
 smart-open==6.4.0
 spacy==3.7.4
+spacy-curated-transformers==0.2.2
 spacy-legacy==3.0.12
 spacy-loggers==1.0.5
 srsly==2.4.8
