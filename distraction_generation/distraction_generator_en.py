@@ -65,23 +65,3 @@ class DistractionFinder:
 
         return first_distraction_word, second_distraction_word, third_distraction_word
 
-
-passage = """KERRVILLE, TX—Exasperated with the view from the place they were standing 
-to observe the astronomical event, local spectators complained Monday that really tall guy 
-Matt Everett was blocking everyone's view of the total solar eclipse. 
-“Goddammit, this thing only lasts a few minutes—can't he at least sit down?” 
-said Garett Pointer, 5' 8", who was seen craning his neck around Everett, 6' 5", 
-in an attempt to get a better look as the moon passed between the earth and the sun. 
-“This is my last chance to see once of these things until 2044, 
-and I wind up stuck behind Abe fucking Lincoln. Just my luck. 
-And the asshole isn't even paying attention! He's been staring at his phone the whole time.” 
-At press time, the total eclipse had reportedly become even more difficult to view after 
-Everett's girlfriend decided to perch atop his shoulders."""
-
-finder = DistractionFinder()
-answer = "Garett"
-first, second, third = finder.example_flow(passage, answer)
-print(f"Answer: {answer}")
-print(f"First distraction word: {first}")
-print(f"Second distraction word: {second}")
-print(f"Third distraction word: {third}")

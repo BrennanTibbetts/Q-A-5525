@@ -5,17 +5,17 @@ class NER_Extractor:
     # both are english. first is fast, second is accurate
     # adapted from https://www.analyticsvidhya.com/blog/2021/06/nlp-application-named-entity-recognition-ner-in-python-with-spacy/
 
-    NER_list = [spacy.load("en_core_web_sm"), spacy.load("en_core_web_trf")]
+    NER_list = [spacy.load("en_core_web_md"), spacy.load("en_core_web_trf")]
     NER_index = 0
 
     def change_spacy_initialization(self, index):
         self.NER_index = index
         
-    def process_paragraph(self, paragraph_text):
-        # paragraph_text = "The Indian Space Research Organisation or is the national space agency of India, headquartered in Bengaluru. It operates under Department of Space which is directly overseen by the Prime Minister of India while Chairman of ISRO acts as executive of DOS as well."
+    def process_paragraph(self, paragraph_text, display=False):
         tagged_text= self.NER_list[self.NER_index](paragraph_text)
         
         # alternative method if we wanted more direct control of tag types
+
         good_stuff = [(token.text, token.pos_) for token in tagged_text if token.pos_ in ['NOUN', 'VERB']]
         
         # extract only the token text (ex: 'runs'), not the token type (ex. 'verb')
@@ -25,6 +25,13 @@ class NER_Extractor:
         if(True):
             unique_labels = set()
 
+        # good_stuff = [(token.text, token.pos_) for token in tagged_text]
+        # # good_stuff = [(token.text, token.pos_) for token in tagged_text if token.pos_ in ['NOUN', 'VERB', 'PRON']]
+        # print('\nThis is the good stuff ')
+        # print(good_stuff)
+
+        # optional for bugtesting
+        if(display):
             print('\nProcessed Tags')
             for word in tagged_text.ents:
                 print('\t'+word.label_, word.text)
@@ -58,4 +65,5 @@ if __name__ == "__main__":
     
     ner_extractor = NER_Extractor()
     ner_extractor.change_spacy_initialization(1)
+    ner_extractor.change_spacy_initialization(0)
     print(ner_extractor.process_paragraph(paragraph_text))
