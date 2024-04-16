@@ -30,7 +30,7 @@ def load_qa_data(json_file):
     # turn the json into a list of dictionaries
     articles = [a for a in articles["data"]]
 
-    return articles[11:12]
+    return articles
 
 
 def bleu_comparison(original: str, translated: str):
@@ -130,6 +130,7 @@ def score_qa_pair(controller, english: dict, spanish: dict, display: bool = Fals
             for extracted_answer in extracted_answers:
                 
                 generated_question = controller.generate_question(extracted_answer, translated_context)
+                
                 extracted_distractions = controller.find_distractions(translated_context, extracted_answer)
 
                 # bleu_score = bleu_comparison(target_context, translated_context)
