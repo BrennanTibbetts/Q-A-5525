@@ -17,10 +17,12 @@ class NER_Extractor:
         
         # alternative method if we wanted more direct control of tag types
 
-        good_stuff = [(token.text, token.pos_) for token in tagged_text if token.pos_ in ['NOUN']]
+        # good_stuff = [(token.text, token.pos_) for token in tagged_text if token.pos_ in ['NOUN']]
         
         # extract only the token text (ex: 'runs'), not the token type (ex. 'verb')
-        good_stuff = [word for word, pos in good_stuff]
+        # good_stuff = [word for word, pos in good_stuff]
+
+        good_stuff = [token.text for token in tagged_text.ents]
         
         # optional for bugtesting NER
         if(True):
