@@ -8,7 +8,7 @@ from nltk.tokenize import word_tokenize
 from sentence_transformers import SentenceTransformer, util
 
 sys.path.insert(0, os.path.abspath("answer_extraction"))
-from extraction_ootb_en import AnswerExtractor
+from answer_extraction import NER_Extractor 
 
 sys.path.insert(0, os.path.abspath("question_generation"))
 from question_gen_en import QuestionGenerator
@@ -72,21 +72,24 @@ class Controller:
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
         self.translator = Translator(device)
-        #print(self.translator.translate("Hola, ¿cómo estás?"))
-        self.extractor = AnswerExtractor()
+        self.extractor = NER_Extractor()
         self.question_generator = QuestionGenerator()
+        self.distraction_finder = DistractionFinder()
 
     # methods to simplify model calls
     def translate(self, text:str):
         return self.translator.translate(text)
-    
-    def generate_questions(self, text: str, num_questions: int = 4):
-        return self.question_generator.generate_questions(text, 
-                                                          num_questions=num_questions, 
-                                                          temperature=3.0)
 
-    def extract_answer(self, question: str, context: str):     
-        return self.extractor.extract_answer(question, context)
+    def extract_answer(self, context: str):     
+        self.extractor.change_spacy_initialization(0)
+        return self.extractor.process_paragraph(context)
+    
+    def generate_question(self, answer, context, max_length=64):
+        return self.question_generator.generate_question(answer, context)
+
+    def find_distraction(self, passage: str, answer: str):
+        return self.distraction_finder.example_flow(passage, answer)
+
 
 def score_qa_pair(controller, english: dict, spanish: dict, display: bool = False):
     """
@@ -103,9 +106,7 @@ def score_qa_pair(controller, english: dict, spanish: dict, display: bool = Fals
 
             # get the text to translate
             spanish_context = spanish[i]["paragraphs"][j]["context"]
-            
             translated_context = controller.translate(spanish_context)
-
 
             # get the correct translation
             target_context = paragraph["context"]
@@ -117,50 +118,51 @@ def score_qa_pair(controller, english: dict, spanish: dict, display: bool = Fals
                 
                 target_qa.append((target_question, target_answer))
 
-            # generate question
-            generated_questions = controller.generate_questions(translated_context, num_questions=len(target_qa))
+            # convert translated context to str
+            print(f"Translated Context: {translated_context}\n")
 
-            bleu_score = bleu_comparison(target_context, translated_context)
+            # extract answer first, not after
+            extracted_answers = controller.extract_answer(translated_context)
+            print(extracted_answers)
 
-            if display:
-                print("--------------------------------------------------\n")
-                print(f"Spanish Context: {spanish_context}\n")
+            for extracted_answer in extracted_answers:
+                # generate question
+                generated_question = controller.generate_question(extracted_answer, translated_context)
+                print(generated_question)
+                # generated_questions = [generated_question]
 
-                # use BLEU score to evaluate the translation
-                print(f"Translation BLEU: {bleu_score}\n")
-                
-                print(f"English Context: {target_context}\n")
-                print(f"Translated Context: {translated_context}\n")
-                print("--------------------------------------------------\n")
+                # bleu_score = bleu_comparison(target_context, translated_context)
 
-            gen_qa = []
-            # extract answer
-            for question in generated_questions:
-                answer = controller.extract_answer(question, translated_context)
-
-                gen_qa.append(f"Q: {question}, A:{answer}")
                 if display:
-                    print(f"Generated-Q: {question}")
-                    print(f"Generated-A: {answer}\n")
+                    print("--------------------------------------------------\n")
+                    print(f"Spanish Context: {spanish_context}\n")
+                    print(f"English Context: {target_context}\n")
+                    print(f"Translated Context: {translated_context}\n")
+                    print("--------------------------------------------------\n")
 
-            if display:
-                print("--------------------------------------------------\n")
+                gen_qa = []
 
-            dataset_qa = []
-            for qa in target_qa:
-                
-                dataset_qa.append(f"Q: {qa[0]}, A:{qa[1][0]}")
-                
                 if display:
-                    print(f"Target-Q: {qa[0]}")
-                    print(f"Target-A: {qa[1][0]}\n")
+                    print("--------------------------------------------------\n")
+
+                dataset_qa = []
+                for qa in target_qa:
                     
+                    dataset_qa.append(f"Q: {qa[0]}, A:{qa[1][0]}")
+                    
+                    if display:
+                        print(f"Target-Q: {qa[0]}")
+                        print(f"Target-A: {qa[1][0]}\n")
+                        
 
-            similarity = semantic_comparison(gen_qa, dataset_qa)
+                similarity = semantic_comparison(gen_qa, dataset_qa)
 
-            if display:
-                print("--------------------------------------------------\n")
-                print(f"QA Pair Semantic Similarity: {similarity}\n")
+                if display:
+                    print("--------------------------------------------------\n")
+                    print(f"QA Pair Semantic Similarity: {similarity}\n")
+
+            
+            # bleu_score = bleu_comparison(target_context, translated_context)
 
 
 if __name__ == "__main__":
