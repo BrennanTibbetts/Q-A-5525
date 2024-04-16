@@ -6,51 +6,43 @@ class NER_Extractor:
     # both are english. first is fast, second is accurate
     # adapted from https://www.analyticsvidhya.com/blog/2021/06/nlp-application-named-entity-recognition-ner-in-python-with-spacy/
 
-    NER_list = [spacy.load("en_core_web_md"), spacy.load("en_core_web_trf")]
-    NER_index = 0
+    def __init__(self):
+        self.NER_list = ["en_core_web_md", "en_core_web_trf"]
+        self.NER_index = 0
+        self.nlp = spacy.load(self.NER_list[self.NER_index])
 
     def change_spacy_initialization(self, index):
         self.NER_index = index
         
     def process_paragraph(self, paragraph_text, display=False):
-        tagged_text= self.NER_list[self.NER_index](paragraph_text)
+        # Process the text to extract entities
+        tagged_text = self.nlp(paragraph_text)
+
+        # Extract proper nouns for the alternative method
+        good_stuff = [token.text for token in tagged_text if token.pos_ == 'PROPN']
         
-        # alternative method if we wanted more direct control of tag types
+        # Extract entities
+        entities = [str(entity) for entity in tagged_text.ents]
 
-        # good_stuff = [(token.text, token.pos_) for token in tagged_text if token.pos_ in ['NOUN']]
-        
-        # extract only the token text (ex: 'runs'), not the token type (ex. 'verb')
-        # good_stuff = [word for word, pos in good_stuff]
+        # Check if the entities list is shorter than 4
+        if len(entities) < 4:
+            needed = 4 - len(entities)
+            additional_samples = random.sample(good_stuff, min(needed, len(good_stuff)))
+            final_output = entities + additional_samples
+        else:
+            final_output = random.sample(entities, 4)
 
-        good_stuff = [token.text for token in tagged_text.ents]
-        
-        # optional for bugtesting NER
-        if(True):
-            unique_labels = set()
-
-        # good_stuff = [(token.text, token.pos_) for token in tagged_text]
-        # # good_stuff = [(token.text, token.pos_) for token in tagged_text if token.pos_ in ['NOUN', 'VERB', 'PRON']]
-        # print('\nThis is the good stuff ')
-        # print(good_stuff)
-
-        # optional for bugtesting
-        if(display):
+        # Optional debugging and display of NER labels
+        if display:
+            unique_labels = set((entity.label_ for entity in tagged_text.ents))
             print('\nProcessed Tags')
-            for word in tagged_text.ents:
-                print('\t'+word.label_, word.text)
-                unique_labels.add(word.label_)
-                
-            print('\nLabel Explaination')
+            for entity in tagged_text.ents:
+                print('\t' + entity.label_, entity.text)
+            print('\nLabel Explanation')
             for label in unique_labels:
-                print('\t'+label+' describes '+spacy.explain(str(label)))
-        
-        # combine NER and raw noun extraction
-        final_output = tagged_text.ents + tuple(good_stuff)
-        
-        # ensure final output is in strings
-        final_output = tuple(str(item) for item in final_output)
-        
-        return random.sample(final_output, 4)
+                print('\t' + label + ' describes ' + spacy.explain(str(label)))
+
+        return final_output
                 
     # Work if we wanted to get phrased answers instead of just single subjected words
     # def break_down_sentences(tagged_text):
