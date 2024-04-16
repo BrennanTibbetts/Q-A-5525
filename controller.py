@@ -2,13 +2,16 @@ import os
 import pandas as pd
 import sys
 import torch
+import nltk
 
 from nltk.translate.bleu_score import sentence_bleu
 from nltk.tokenize import word_tokenize
 from sentence_transformers import SentenceTransformer, util
 
+nltk.download('punkt')
+
 sys.path.insert(0, os.path.abspath("answer_extraction"))
-from answer_extraction import NER_Extractor 
+from answer_extraction import NER_Extractor
 
 sys.path.insert(0, os.path.abspath("question_generation"))
 from question_gen_en import QuestionGenerator
@@ -111,6 +114,16 @@ def score_qa_pair(controller, english: dict, spanish: dict, display: bool = Fals
             # get the correct translation
             target_context = paragraph["context"]
 
+            if display:
+                print("--------------------------------------------------\n")
+                print(f"Spanish Context: {spanish_context}\n")
+                print(f"English Context: {target_context}\n")
+                print(f"Translated Context: {translated_context}\n")
+                print("--------------------------------------------------\n")
+
+            blue_score = bleu_comparison(target_context, translated_context)
+            print(f"BLEU Score: {blue_score}\n")
+
             target_qa = []
             for qas in paragraph["qas"]:
                 target_question = qas["question"]
@@ -120,12 +133,6 @@ def score_qa_pair(controller, english: dict, spanish: dict, display: bool = Fals
 
             extracted_answers = controller.extract_answer(translated_context)
 
-            if display:
-                print("--------------------------------------------------\n")
-                print(f"Spanish Context: {spanish_context}\n")
-                print(f"English Context: {target_context}\n")
-                print(f"Translated Context: {translated_context}\n")
-                print("--------------------------------------------------\n")
 
             for extracted_answer in extracted_answers:
                 
