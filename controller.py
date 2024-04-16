@@ -81,6 +81,7 @@ class Controller:
         return self.translator.translate(text)
 
     def extract_answer(self, context: str):     
+        self.extractor.change_spacy_initialization(0)
         return self.extractor.process_paragraph(context)
     
     def generate_question(self, answer, context, max_length=64):
@@ -117,55 +118,50 @@ def score_qa_pair(controller, english: dict, spanish: dict, display: bool = Fals
                 
                 target_qa.append((target_question, target_answer))
 
+            print(f"Translated Context: {translated_context}\n")
 
             # extract answer first, not after
-            extracted_answer = controller.extract_answer(translated_context)
+            extracted_answers = controller.extract_answer(translated_context)
+            print(extracted_answers)
 
-            # generate question
-            generated_question = controller.generate_question(extracted_answer, translated_context)
-            generated_questions = [generated_question]
+            for extracted_answer in extracted_answers:
+                # generate question
+                generated_question = controller.generate_question(extracted_answer, translated_context)
+                print(generated_question)
+                # generated_questions = [generated_question]
 
-            bleu_score = bleu_comparison(target_context, translated_context)
+                # bleu_score = bleu_comparison(target_context, translated_context)
 
-            if display:
-                print("--------------------------------------------------\n")
-                print(f"Spanish Context: {spanish_context}\n")
-
-                # use BLEU score to evaluate the translation
-                print(f"Translation BLEU: {bleu_score}\n")
-                
-                print(f"English Context: {target_context}\n")
-                print(f"Translated Context: {translated_context}\n")
-                print("--------------------------------------------------\n")
-
-            gen_qa = []
-            # extract answer
-            for question in generated_questions:
-                answer = controller.extract_answer(question, translated_context)
-
-                gen_qa.append(f"Q: {question}, A:{answer}")
                 if display:
-                    print(f"Generated-Q: {question}")
-                    print(f"Generated-A: {answer}\n")
+                    print("--------------------------------------------------\n")
+                    print(f"Spanish Context: {spanish_context}\n")
+                    print(f"English Context: {target_context}\n")
+                    print(f"Translated Context: {translated_context}\n")
+                    print("--------------------------------------------------\n")
 
-            if display:
-                print("--------------------------------------------------\n")
+                gen_qa = []
 
-            dataset_qa = []
-            for qa in target_qa:
-                
-                dataset_qa.append(f"Q: {qa[0]}, A:{qa[1][0]}")
-                
                 if display:
-                    print(f"Target-Q: {qa[0]}")
-                    print(f"Target-A: {qa[1][0]}\n")
+                    print("--------------------------------------------------\n")
+
+                dataset_qa = []
+                for qa in target_qa:
                     
+                    dataset_qa.append(f"Q: {qa[0]}, A:{qa[1][0]}")
+                    
+                    if display:
+                        print(f"Target-Q: {qa[0]}")
+                        print(f"Target-A: {qa[1][0]}\n")
+                        
 
-            similarity = semantic_comparison(gen_qa, dataset_qa)
+                similarity = semantic_comparison(gen_qa, dataset_qa)
 
-            if display:
-                print("--------------------------------------------------\n")
-                print(f"QA Pair Semantic Similarity: {similarity}\n")
+                if display:
+                    print("--------------------------------------------------\n")
+                    print(f"QA Pair Semantic Similarity: {similarity}\n")
+
+            
+            # bleu_score = bleu_comparison(target_context, translated_context)
 
 
 if __name__ == "__main__":

@@ -12,7 +12,6 @@ class NER_Extractor:
         self.NER_index = index
         
     def process_paragraph(self, paragraph_text, display=False):
-        # paragraph_text = "The Indian Space Research Organisation or is the national space agency of India, headquartered in Bengaluru. It operates under Department of Space which is directly overseen by the Prime Minister of India while Chairman of ISRO acts as executive of DOS as well."
         tagged_text= self.NER_list[self.NER_index](paragraph_text)
         unique_labels = set()
         
@@ -51,4 +50,4 @@ if __name__ == "__main__":
     
     ner_extractor = NER_Extractor()
     ner_extractor.change_spacy_initialization(0)
-    ner_extractor.process_paragraph(paragraph_text)
+    print(ner_extractor.process_paragraph(paragraph_text))
