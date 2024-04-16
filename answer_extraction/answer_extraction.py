@@ -13,9 +13,18 @@ class NER_Extractor:
         
     def process_paragraph(self, paragraph_text, display=False):
         tagged_text= self.NER_list[self.NER_index](paragraph_text)
-        unique_labels = set()
         
         # alternative method if we wanted more direct control of tag types
+
+        good_stuff = [(token.text, token.pos_) for token in tagged_text if token.pos_ in ['NOUN', 'VERB']]
+        
+        # extract only the token text (ex: 'runs'), not the token type (ex. 'verb')
+        good_stuff = [word for word, pos in good_stuff]
+        
+        # optional for bugtesting NER
+        if(True):
+            unique_labels = set()
+
         # good_stuff = [(token.text, token.pos_) for token in tagged_text]
         # # good_stuff = [(token.text, token.pos_) for token in tagged_text if token.pos_ in ['NOUN', 'VERB', 'PRON']]
         # print('\nThis is the good stuff ')
@@ -32,7 +41,13 @@ class NER_Extractor:
             for label in unique_labels:
                 print('\t'+label+' describes '+spacy.explain(str(label)))
         
-        return tagged_text.ents
+        # combine NER and raw noun extraction
+        final_output = tagged_text.ents + tuple(good_stuff)
+        
+        # ensure final output is in strings
+        final_output = tuple(str(item) for item in final_output)
+        
+        return final_output
                 
     # Work if we wanted to get phrased answers instead of just single subjected words
     # def break_down_sentences(tagged_text):
@@ -46,8 +61,9 @@ class NER_Extractor:
         
 if __name__ == "__main__":
     # Example usage:
-    paragraph_text = "The Indian Space Research Organisation or is the national space agency of India, headquartered in Bengaluru. It operates under Department of Space which is directly overseen by the Prime Minister of India while Chairman of ISRO acts as executive of DOS as well."
+    paragraph_text = "The commencement ceremony for OSU graduates will take place on May 20th at Ohio Stadium."
     
     ner_extractor = NER_Extractor()
+    ner_extractor.change_spacy_initialization(1)
     ner_extractor.change_spacy_initialization(0)
     print(ner_extractor.process_paragraph(paragraph_text))
