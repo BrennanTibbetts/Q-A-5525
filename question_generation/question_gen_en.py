@@ -23,7 +23,13 @@ class QuestionGenerator:
                     attention_mask=features['attention_mask'],
                     max_length=max_length)
 
-        return self.tokenizer.decode(output[0])
+        question = self.tokenizer.decode(output[0])
+
+        # remove extraneous tokens
+        question = question.replace("<pad> question:", "")
+        question = question.replace("</s>", "").strip()
+
+        return question
 
 
 if __name__ == '__main__':
