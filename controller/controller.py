@@ -6,16 +6,15 @@ import nltk
 
 from nltk.translate.bleu_score import sentence_bleu
 from nltk.tokenize import word_tokenize
-from sentence_transformers import SentenceTransformer, util
 
 nltk.download('punkt')
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
-from answer_extraction.answer_extraction import NER_Extractor
+from answer_extraction import NER_Extractor
 from question_generation.question_gen_en import QuestionGenerator
-from translation.translator_es_en import Translator
-from distraction_generation.distraction_generator_en import DistractionFinder
+from translation import Translator
+from distraction_generation import DistractionFinder
 
 
 ENGLISH_JSON = "data/xquad.en.json"
