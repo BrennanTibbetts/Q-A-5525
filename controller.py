@@ -2,13 +2,16 @@ import os
 import pandas as pd
 import sys
 import torch
+import nltk
 
 from nltk.translate.bleu_score import sentence_bleu
 from nltk.tokenize import word_tokenize
 from sentence_transformers import SentenceTransformer, util
 
+nltk.download('punkt')
+
 sys.path.insert(0, os.path.abspath("answer_extraction"))
-from answer_extraction import NER_Extractor 
+from answer_extraction import NER_Extractor
 
 sys.path.insert(0, os.path.abspath("question_generation"))
 from question_gen_en import QuestionGenerator
@@ -116,13 +119,6 @@ def score_qa_pair(controller, english: dict, spanish: dict, display: bool = Fals
             # get the correct translation
             target_context = paragraph["context"]
 
-            target_qa = []
-            for qas in paragraph["qas"]:
-                target_question = qas["question"]
-                target_answer = [a["text"] for a in qas["answers"]]
-                
-                target_qa.append((target_question, target_answer))
-
             if display:
                 print("--------------------------------------------------\n")
                 print(f"Spanish Context: {spanish_context}\n")
@@ -130,9 +126,17 @@ def score_qa_pair(controller, english: dict, spanish: dict, display: bool = Fals
                 print(f"Translated Context: {translated_context}\n")
                 print("--------------------------------------------------\n")
 
-            for gen_q, extr_a, extr_dist in qa_pairs:
+            bleu_score = bleu_comparison(target_context, translated_context)
+            print(f"BLEU Score: {bleu_score}\n")
 
-                # bleu_score = bleu_comparison(target_context, translated_context)
+            target_qa = []
+            for qas in paragraph["qas"]:
+                target_question = qas["question"]
+                target_answer = [a["text"] for a in qas["answers"]]
+                
+                target_qa.append((target_question, target_answer))
+
+            for gen_q, extr_a, extr_dist in qa_pairs:
 
                 gen_qa = []
                 dataset_qa = []
