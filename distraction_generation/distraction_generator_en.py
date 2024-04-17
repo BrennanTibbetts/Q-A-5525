@@ -7,7 +7,7 @@ class DistractionFinder:
     def __init__(self, model='en_core_web_md'):
         self.nlp = spacy.load(model)
 
-    def find_distraction_word(self, passage, target_words, target_similarity):
+    def find_distraction_word(self, passage, target_words, target_similarity, answer=None):
         """
         Find the noun or verb in the passage whose average similarity to the target words
         is closest to the specified target similarity score.
@@ -37,6 +37,8 @@ class DistractionFinder:
         distraction_difference = float('inf')
 
         for token in doc:
+            if(answer != None and token.text == answer):
+                continue
             if token.pos_ not in ['NOUN', 'VERB', 'PROPN'] or token.text in target_words:
                 continue
 
@@ -60,7 +62,7 @@ class DistractionFinder:
         second_distraction_word = self.find_distraction_word(passage, target_words, target_similarity)[0]
 
         target_words = [first_distraction_word, second_distraction_word]  # Now using only the generated words
-        third_distraction_word = self.find_distraction_word(passage, target_words, target_similarity)[0]
+        third_distraction_word = self.find_distraction_word(passage, target_words, target_similarity, answer)[0]
 
         return [first_distraction_word, second_distraction_word, third_distraction_word]
 
