@@ -1,32 +1,46 @@
 {
-    "data": [
+  "data": [
+    {
+      "paragraphs": [
         {
-            "paragraphs": [
-                {
-                    "context": "Thomas Bogle was running every day in the forest near his home in Colorado. He was training for a race, but his mind wasn’t focused on that. Instead, he couldn’t stop thinking about the bits of plastic and rubber that his shoes were shedding on the forest floor. With every step we take, our shoes leave behind an invisible trail of contaminants. These contaminants can potentially harm the soil, water and animal health. Ground-up recycled footwear foam scraps are diverted from landfills to be made into new high-performance Blumaka insoles and midsoles. Nearly 24 billion pairs of shoes were produced in 2022. Each pair contains different types of plastics and synthetic rubber. Synthetic materials are designed and made by humans, usually in order to mimic and improve the properties of natural materials. Every year, about 500,000 tons of microplastics seep into the world’s oceans. Microplastics are small pieces of plastic, less than 5 millimeters long, that form as plastic objects break down. They can harm living things and the environment. According to one estimate, up to 35 percent of these microplastics come from synthetic materials, including footwear. Bogle, who has spent 10 years working in the footwear industry, is trying to combat some of these challenges by changing the way that shoes are made"
-                }
-            ]
-        },
-        {
-            "paragraphs": [
-                {
-                    "context": "The Portland Japanese Garden’s modern tea room has glass walls. Outside, a lush forest is giving way to winter. Just a few red leaves remain on the Japanese maple trees. The setting looks and feels like the Japanese countryside, but this spot is about 5,000 miles (8,047 kilometers) away from Japan. It’s nestled in a lush hillside in Oregon, a state in the western United States. In the 1960s, the city of Portland, Oregon, converted a zoo into this 12-acre garden. It was part of an effort to promote peace and cultural exchange between the United States and Japan. Japanese leaders have described the grounds as the most beautiful and authentic Japanese garden outside of Japan. The teahouse, called the Umami Café, tries to bring the same authentic style to its fare. Always on the menu are their grassy matcha, powdered green tea, and roasted rice teas. But their wagashi menu changes with the seasons."
-                }
-            ]
-        },
-        {
-            "paragraphs": [
-                {
-                    "context": "A pinkie and thumb extended with the remaining fingers curled down: That’s the “shaka” in Hawaii. The gesture is sometimes known outside the islands as the “hang loose” sign associated with surf culture. It was a fixture of daily life in the islands long before it caught on in California, Brazil and beyond. People in Hawaii have a variety of shaka styles and use them to convey a range of warmhearted sentiments, from hi and bye to thanks and aloha, among other meanings. The captains of the Lahainaluna High School football team, from the Maui community devastated by last summer's deadly wildfire, were invited to the Super Bowl in Las Vegas, Nevada, in February. They flashed shakas for the cameras. Now, a pair of bills in the state Legislature would make the shaka the state's official gesture and recognize Hawaii as its birthplace. Senator Glenn Wakai, who introduced the Senate version, said he can’t imagine the measure meeting any opposition. He expects it to “sail through.” Here are some things to know about Hawaii’s shaka — including its purported origin with a seven-fingered fisherman."
-                }
-            ]
-        },
-        {
-            "paragraphs": [
-                {
-                    "context": "When Leonardo Sanchez began walking the levees in south Florida as a wildlife volunteer in 2011 he realized there was a serious problem. They were finding large 14-feet Burmese pythons on a daily basis. But it wasn’t until three years later that the state decided to put a bounty on their heads and initiated a python eradication campaign. It was too late. Sanchez was one of the first group of eight hunters who were given a key to the protected levees by the state and handed out contracts to volunteer python hunters. ““We are fighting hard and we are doing a good job. But we’re definitely not winning. They are going to be here forever,” said Sanchez, who explained that by the time the state responded the python population had exploded. A new scientific review by the U.S. Geological Survey found that the giant snakes, than can grow to 20-feet long and over 200 pounds in weight, are continuing to spread out in all directions from their breeding ground in the Everglades reaching the urban areas of greater Miami, Palm Beach and Fort Myers and even threatening as far north as Lake Okeechobee just south of Orlando. The study called the state’s python problem “one of the most intractable invasive-species management issues across the globe,” adding that the python population is unknown, but feared to be growing rapidly."
-                }
-            ]
+          "context": "Thomas Bogle was running every day in the forest near his home in Colorado. He was training for a race, but his mind wasn’t focused on that. Instead, he couldn’t stop thinking about the bits of plastic and rubber that his shoes were shedding on the forest floor. With every step we take, our shoes leave behind an invisible trail of contaminants. These contaminants can potentially harm the soil, water and animal health. Ground-up recycled footwear foam scraps are diverted from landfills to be made into new high-performance Blumaka insoles and midsoles. Nearly 24 billion pairs of shoes were produced in 2022. Each pair contains different types of plastics and synthetic rubber. Synthetic materials are designed and made by humans, usually in order to mimic and improve the properties of natural materials. Every year, about 500,000 tons of microplastics seep into the world’s oceans. Microplastics are small pieces of plastic, less than 5 millimeters long, that form as plastic objects break down. They can harm living things and the environment. According to one estimate, up to 35 percent of these microplastics come from synthetic materials, including footwear. Bogle, who has spent 10 years working in the footwear industry, is trying to combat some of these challenges by changing the way that shoes are made"
         }
-    ]
+      ]
+    },
+    {
+      "paragraphs": [
+        {
+          "context": "The Portland Japanese Garden’s modern tea room has glass walls. Outside, a lush forest is giving way to winter. Just a few red leaves remain on the Japanese maple trees. The setting looks and feels like the Japanese countryside, but this spot is about 5,000 miles (8,047 kilometers) away from Japan. It’s nestled in a lush hillside in Oregon, a state in the western United States. In the 1960s, the city of Portland, Oregon, converted a zoo into this 12-acre garden. It was part of an effort to promote peace and cultural exchange between the United States and Japan. Japanese leaders have described the grounds as the most beautiful and authentic Japanese garden outside of Japan. The teahouse, called the Umami Café, tries to bring the same authentic style to its fare. Always on the menu are their grassy matcha, powdered green tea, and roasted rice teas. But their wagashi menu changes with the seasons."
+        }
+      ]
+    },
+    {
+      "paragraphs": [
+        {
+          "context": "A pinkie and thumb extended with the remaining fingers curled down: That’s the “shaka” in Hawaii. The gesture is sometimes known outside the islands as the “hang loose” sign associated with surf culture. It was a fixture of daily life in the islands long before it caught on in California, Brazil and beyond. People in Hawaii have a variety of shaka styles and use them to convey a range of warmhearted sentiments, from hi and bye to thanks and aloha, among other meanings. The captains of the Lahainaluna High School football team, from the Maui community devastated by last summer's deadly wildfire, were invited to the Super Bowl in Las Vegas, Nevada, in February. They flashed shakas for the cameras. Now, a pair of bills in the state Legislature would make the shaka the state's official gesture and recognize Hawaii as its birthplace. Senator Glenn Wakai, who introduced the Senate version, said he can’t imagine the measure meeting any opposition. He expects it to “sail through.” Here are some things to know about Hawaii’s shaka — including its purported origin with a seven-fingered fisherman."
+        }
+      ]
+    },
+    {
+      "paragraphs": [
+        {
+          "context": "When Leonardo Sanchez began walking the levees in south Florida as a wildlife volunteer in 2011 he realized there was a serious problem. They were finding large 14-feet Burmese pythons on a daily basis. But it wasn’t until three years later that the state decided to put a bounty on their heads and initiated a python eradication campaign. It was too late. Sanchez was one of the first group of eight hunters who were given a key to the protected levees by the state and handed out contracts to volunteer python hunters. ““We are fighting hard and we are doing a good job. But we’re definitely not winning. They are going to be here forever,” said Sanchez, who explained that by the time the state responded the python population had exploded. A new scientific review by the U.S. Geological Survey found that the giant snakes, than can grow to 20-feet long and over 200 pounds in weight, are continuing to spread out in all directions from their breeding ground in the Everglades reaching the urban areas of greater Miami, Palm Beach and Fort Myers and even threatening as far north as Lake Okeechobee just south of Orlando. The study called the state’s python problem “one of the most intractable invasive-species management issues across the globe,” adding that the python population is unknown, but feared to be growing rapidly."
+        }
+      ]
+    },
+    {
+      "paragraphs": [
+        {
+          "context": "Dreadful indeed, if, as we could assume, Captain Nemo had been using the Nautilus in works of vengeance! That night in the middle of the Indian Ocean, when he imprisoned us in the cell, hadn't he attacked some ship? That man now buried in the coral cemetery, wasn't he the victim of some collision caused by the Nautilus? Yes, I repeat: this had to be the case. One part of Captain Nemo's secret life had been unveiled. And now, even though his identity was still unknown, at least the nations allied against him knew they were no longer hunting some fairy-tale monster, but a man who had sworn an implacable hate toward them!"
+        }
+      ]
+    },
+    {
+      "paragraphs": [
+        {
+          "context": "As I said, the Nautilus veered to the east. To be more accurate, I should have said to the northeast. Sometimes on the surface of the waves, sometimes beneath them, the ship wandered for days amid these mists so feared by navigators. These are caused chiefly by melting ice, which keeps the air extremely damp. How many ships have perished in these waterways as they tried to get directions from the hazy lights on the coast! How many casualties have been caused by these opaque mists! How many collisions have occurred with these reefs, where the breaking surf is covered by the noise of the wind! How many vessels have rammed each other, despite their running lights, despite the warnings given by their bosun's pipes and alarm bells!"
+        }
+      ]
+    }
+  ]
 }
