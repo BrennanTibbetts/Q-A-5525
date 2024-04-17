@@ -29,7 +29,8 @@ class Controller:
         return self.question_generator.generate_question(answer, context)
 
     def find_distractions(self, context: str, answer: str):
-        return self.distraction_finder.example_flow(context, answer)
+        #return self.distraction_finder.example_flow(context, answer)
+        return None
     
     def gen_qa_pairs(self, context: str, translate = True):
         """
