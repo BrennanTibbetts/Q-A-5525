@@ -49,24 +49,6 @@ def bleu_comparison(original: str, translated: str):
     return bleu_score
 
 
-def semantic_comparison(generated_questions: list[str], dataset_questions: list[str]):
-    """
-    Compare the generated questions with the dataset questions using the model based on semantic similarity   
-    """
-
-    model = SentenceTransformer('all-MiniLM-L6-v2')
-
-    generated_embeddings = model.encode(generated_questions)
-    dataset_embeddings = model.encode(dataset_questions)
-
-    gen_embedding = sum(generated_embeddings) / len(generated_embeddings)
-    dataset_embedding = sum(dataset_embeddings) / len(dataset_embeddings)
-
-    semantic_similarities = util.pytorch_cos_sim(gen_embedding, dataset_embedding)
-
-    return semantic_similarities.item()
-
-
 class Controller:
     def __init__(self):
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -87,8 +69,30 @@ class Controller:
     def generate_question(self, answer, context, max_length=64):
         return self.question_generator.generate_question(answer, context)
 
-    def find_distractions(self, passage: str, answer: str):
-        return self.distraction_finder.example_flow(passage, answer)
+    def find_distractions(self, context: str, answer: str):
+        return self.distraction_finder.example_flow(context, answer)
+    
+    def gen_qa_pairs(self, context: str, translate = True):
+        """
+        Generate a question, answer, and distractions for a given context
+        :param context: str: the context to generate the question from
+        :param translate: bool: whether to translate the context to English
+        :return: tuple: the context and a list of tuples containing the question, answer, and distractions
+        """
+        if translate:
+            context = self.translate(context)
+        
+        answers = self.extract_answer(context)
+        
+        qa_pairs = []
+            
+        for a in answers:
+            question = self.generate_question(a, context)
+            distractions = self.find_distractions(context, a)
+            qa_pairs.append((question, a, distractions))
+        
+        return context, qa_pairs
+        
 
 
 def score_qa_pair(controller, english: dict, spanish: dict, display: bool = False):
@@ -99,14 +103,15 @@ def score_qa_pair(controller, english: dict, spanish: dict, display: bool = Fals
     """
 
     # iterate through the articles and paragraphs
-    for i, article in enumerate(english):
+    for i, article in enumerate(english[0:1]):
         for j, paragraph in enumerate(article["paragraphs"]):
             if display and j >= 1:
                 break
 
             # get the text to translate
             spanish_context = spanish[i]["paragraphs"][j]["context"]
-            translated_context = controller.translate(spanish_context)
+
+            translated_context, qa_pairs = controller.gen_qa_pairs(spanish_context)
 
             # get the correct translation
             target_context = paragraph["context"]
@@ -118,8 +123,6 @@ def score_qa_pair(controller, english: dict, spanish: dict, display: bool = Fals
                 
                 target_qa.append((target_question, target_answer))
 
-            extracted_answers = controller.extract_answer(translated_context)
-
             if display:
                 print("--------------------------------------------------\n")
                 print(f"Spanish Context: {spanish_context}\n")
@@ -127,11 +130,7 @@ def score_qa_pair(controller, english: dict, spanish: dict, display: bool = Fals
                 print(f"Translated Context: {translated_context}\n")
                 print("--------------------------------------------------\n")
 
-            for extracted_answer in extracted_answers:
-                
-                generated_question = controller.generate_question(extracted_answer, translated_context)
-                
-                extracted_distractions = controller.find_distractions(translated_context, extracted_answer)
+            for gen_q, extr_a, extr_dist in qa_pairs:
 
                 # bleu_score = bleu_comparison(target_context, translated_context)
 
@@ -140,13 +139,11 @@ def score_qa_pair(controller, english: dict, spanish: dict, display: bool = Fals
 
                 if display:
                     print("--------------------------------------------------\n")
-                    print(f"Generated-Q: {generated_question}\n")
-                    print(f"Extracted-A: {extracted_answer}\n")
-                    print(f"Distractions: {extracted_distractions}\n")
-                    print(f"Target-QA: {target_qa}\n")
+                    print(f"Generated-Q: {gen_q}\n")
+                    print(f"Extracted-A: {extr_a}\n")
+                    print(f"Distractions: {extr_dist}\n")
+                    # print(f"Target-QA: {target_qa}\n")
                     print("--------------------------------------------------\n")
-                        
-                # similarity = semantic_comparison(gen_qa, dataset_qa)
 
                 # if display:
                 #     print("--------------------------------------------------\n")
