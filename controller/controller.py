@@ -10,17 +10,12 @@ from sentence_transformers import SentenceTransformer, util
 
 nltk.download('punkt')
 
-sys.path.insert(0, os.path.abspath("answer_extraction"))
-from answer_extraction import NER_Extractor
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
-sys.path.insert(0, os.path.abspath("question_generation"))
-from question_gen_en import QuestionGenerator
-
-sys.path.insert(0, os.path.abspath("translation"))
-from translator_es_en import Translator
-
-sys.path.insert(0, os.path.abspath("distraction_generation"))
-from distraction_generator_en import DistractionFinder
+from answer_extraction.answer_extraction import NER_Extractor
+from question_generation.question_gen_en import QuestionGenerator
+from translation.translator_es_en import Translator
+from distraction_generation.distraction_generator_en import DistractionFinder
 
 
 ENGLISH_JSON = "data/xquad.en.json"
@@ -138,9 +133,6 @@ def score_qa_pair(controller, english: dict, spanish: dict, display: bool = Fals
 
             for gen_q, extr_a, extr_dist in qa_pairs:
 
-                gen_qa = []
-                dataset_qa = []
-
                 if display:
                     print("--------------------------------------------------\n")
                     print(f"Generated-Q: {gen_q}\n")
@@ -149,12 +141,7 @@ def score_qa_pair(controller, english: dict, spanish: dict, display: bool = Fals
                     # print(f"Target-QA: {target_qa}\n")
                     print("--------------------------------------------------\n")
 
-                # if display:
-                #     print("--------------------------------------------------\n")
-                #     print(f"QA Pair Semantic Similarity: {similarity}\n")
-
             
-            # bleu_score = bleu_comparison(target_context, translated_context)
 
 
 if __name__ == "__main__":
