@@ -27,7 +27,8 @@ class DistractionFinder:
             if word not in doc_text:
                 return [f"Target word '{word}' not in passage."]
 
-        target_tokens = [token for token in doc if token.text in target_words and token.pos_ in ['NOUN', 'VERB', 'PROPN']]
+        # target_tokens = [token for token in doc if token.text in target_words and token.pos_ in ['NOUN', 'VERB', 'PROPN']]
+        target_tokens = [token for token in doc if token.text in target_words]
 
         if not target_tokens:
             return ["None of the target words are nouns or verbs."]
